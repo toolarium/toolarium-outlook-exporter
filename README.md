@@ -5,32 +5,74 @@
 
 It gives you access to your Outlook calendar and emails via an export. It does the job that you won't find at M$.
 
+## Features
+
+- Export calendar entries and sent emails from Outlook
+- Flexible filters for calendar subjects and attendees
+- Customer-based filters with individual export logic
+- Customizable time allocation for emails per export
+
 ## Getting Started
 
-Download the package and use the batch file **bin\outlook-exporter**. There is a help, see **bin\outlook-exporter --help**
+1. **Download:** Obtain the tool from the repository.
+2. **Run:** Execute the batch file (Windows Command Prompt):
 
-### Samples:
+   ```
+   bin\outlook-exporter
+   ```
 
-- Export all calendar entries and sent mails from current month: ```cmd bin\outlook-exporter```
-- Export all calendar entries and sent mails from july of the current year: ```cmd bin\outlook-exporter 7```
-- Export all calendar entries and sent mails from july from the year 2024: ```cmd bin\outlook-exporter 7.2024```
-- Export all calendar entries and sent mails from 2nd of July only: ```cmd bin\outlook-exporter 2.7.2025```
-- Export all calendar entries and sent mails from 2nd of July until 4th of July: ```cmd bin\outlook-exporter 2.7.2025 4.7.2025```
+   For help or available options, use:
 
+   ```
+   bin\outlook-exporter --help
+   ```
 
-### Configuration:
+### Example Export Commands
 
-- In the config folder (which will be created if it does not exist) are two files:
-    - calendar-subject-filter.txt: It defines subject filter of entries you don't like to export. It acts as a keyword filter.
-    - calendar-attendee-filter.txt: It defines line by line attendee to fliter out from the export. 
+| Scenario                                        | Command                                    |
+|-------------------------------------------------|--------------------------------------------|
+| Current month (calendar & sent emails)          | `bin\outlook-exporter`                     |
+| July of the current year                        | `bin\outlook-exporter 7`                   |
+| July 2024                                       | `bin\outlook-exporter 7.2024`              |
+| July 2nd, 2025                                  | `bin\outlook-exporter 2.7.2025`            |
+| July 2nd to July 4th, 2025                      | `bin\outlook-exporter 2.7.2025 4.7.2025`   |
 
-#### Configuration customer-filter
+*(These are to be entered in a Windows Command Prompt, not a bash shell.)*
 
-- In the subfolder “config\customer-filter”, you can define output-specific filters that you want to use to split entries as example for customers. This acts as a filter. Each word inside this file (line by line) defines keywords which are mapping to this specific output. If you have two different you simply create two different files with it's name: **customer-a.txt** amd **customer-b.txt**.
-- In addition you can have additional attendee filter for each customer. It defines line by line attendee to fliter for this specific export, e.g. **customer-a-attendees.txt** amd **customer-b-attendees.txt**.
-- In the output to each mail a specific time is applied (by default 0.5 hour). This you can customize for each split, e.g. **customer-a-duration.txt** amd **customer-b-duration.txt**. Inside this file you can configure the following keywords (key / value). The value corresponds to the spent hours:
-    DEFAULT_EMAIL_DURATION=0.25
-    ADDITIONAL_EMAIL_DURATION=0.15
+## Configuration
+
+On the first run, a `config` directory will be created in the project folder containing the following files:
+
+- **calendar-subject-filter.txt**
+  Add keywords here to exclude calendar entries by subject from exports.
+- **calendar-attendee-filter.txt**
+  Add attendee names to filter out specific meetings or appointments.
+
+### Customer Filters
+
+Under `config\customer-filter`, you can create individual filter files per customer. For example:
+
+- `customer-a.txt`, `customer-b.txt`
+  Each line in these files can contain a keyword associated with that customer.
+
+You can also create additional filter files per customer:
+
+- `customer-a-attendees.txt`, ...
+  Use to filter attendees for individual customer exports.
+- `customer-a-duration.txt`, ...
+  Specify email processing durations per export, for example:
+  ```
+  DEFAULT_EMAIL_DURATION=0.25
+  ADDITIONAL_EMAIL_DURATION=0.15
+  ```
+
+## Notes
+
+- This tool is designed for exporting data only.
+- It needs read-only access to the outlook.
+- All configuration is handled via plain text files, providing maximum flexibility and transparency.
+- The output are csv files where you can use for further actions.
+
 
 ## Versioning
 
